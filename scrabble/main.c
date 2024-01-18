@@ -38,12 +38,12 @@ int main()
 
     if(d == 'V') {
         for (int i = 0; i < strlen(s); ++i) {
-            board[x++][y] = s[i];
+            board[y++][x] = s[i];
         }
     }
     else if (d == 'H') {
         for (int i = 0; i < strlen(s); ++i) {
-            board[x][y++] = s[i];
+            board[y][x++] = s[i];
         }
     }
 
