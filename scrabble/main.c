@@ -30,23 +30,25 @@ int main()
         }
     }
 
-    //taking input for all the words
+    //taking input for all the words and placing them on the board
     for (int i = 0; i < w; ++i) {
         scanf("%d %d %c %s",&x,&y,&d,s);
+        
+        if(d == 'V') {
+            for (int i = 0; i < strlen(s); ++i) {
+                board[y++][x] = s[i];
+            }
+        }
+        else if (d == 'H') {
+            for (int i = 0; i < strlen(s); ++i) {
+                board[y][x++] = s[i];
+            }
+        }
     }
+
     scanf("%d",&f);
 
-    if(d == 'V') {
-        for (int i = 0; i < strlen(s); ++i) {
-            board[y++][x] = s[i];
-        }
-    }
-    else if (d == 'H') {
-        for (int i = 0; i < strlen(s); ++i) {
-            board[y][x++] = s[i];
-        }
-    }
-
+    
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             printf("%c",board[i][j]);
