@@ -6,7 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
-extern int first = 1;
+static int first = 1;
+static int n = 0;
 
 static void printboard(char **board, int size){
 
@@ -18,7 +19,7 @@ static void printboard(char **board, int size){
     }
 }
 
-static void placeWord(char **board, int size, char* word,int row_loc, int column_loc, char direction){
+static void placeWord(char board[n][n], int size, char* word,int row_loc, int column_loc, char direction){
 
     int len = strlen(word);
 
@@ -33,7 +34,7 @@ static void placeWord(char **board, int size, char* word,int row_loc, int column
     }
 }
 
-static int validate(char **board, int size, char* word, int row_loc, int column_loc, char direction){
+static int validate(char board[n][n], int size, char* word, int row_loc, int column_loc, char direction){
 
     int len = strlen(word);
 
@@ -76,7 +77,8 @@ int main()
     // x coordinate of the first character of the word
     // y coordinate of the first character of the word
     // f is a pointer, and it will be 0 indicating lowercase words
-    int n,w,x,y,f;
+
+    int w,x,y,f;
 
     scanf("%d",&n);      // taking input in n
     scanf("%d",&w);       // taking input in w
