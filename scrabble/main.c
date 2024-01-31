@@ -70,6 +70,48 @@ static int validate(char board[n][n], int size, char* word, int row_loc, int col
     return 0;
 }
 
+static void whereToPlace(char board[n][n],int size,int before, int after, char character){
+
+    for (int i = 0; i < size ; ++i) {
+        for (int j = 0; j < size; ++j) {
+            if(board[i][j] == character){
+                if((i - before >= 0) && (i + after < n)){
+                    int flag = 0;
+                    for (int k = i; k >= i - before ; --k) {
+                        if(board[k][j]!='.'){
+                            flag++;
+                        }
+                    }
+                    for (int k = i; k < i + after; ++k) {
+                        if(board[k][j]!='.'){
+                            flag++;
+                        }
+                    }
+                    if(flag == 0){
+                        printf("Place vertically at (%d,%d)",i,j);
+                    }
+                }
+                if((j - before >= 0) && (j + after < n)){
+                    int flag = 0;
+                    for (int k = j; k >= j - before ; --k) {
+                        if(board[i][k]!='.'){
+                            flag++;
+                        }
+                    }
+                    for (int k = j; k < j + after; ++k) {
+                        if(board[i][k]!='.'){
+                            flag++;
+                        }
+                    }
+                    if(flag == 0){
+                        printf("Place horizontally at (%d,%d)",i,j);
+                    }
+                }
+            }
+        }
+    }
+}
+
 int main()
 {
     // n is the size of the board N x N
@@ -111,6 +153,18 @@ int main()
     scanf("%d",&f);
 
     printboard(board,n);
+
+    if( f > 0 ){
+        int before,after;
+        char character;
+
+        for (int i = 0; i < f; ++i) {
+
+            scanf("%d %c %d",&before,&character,&after);
+
+            whereToPlace(board, n, before, after, character);
+        }
+    }
 
     return 0;
 }
