@@ -6,6 +6,69 @@
 #include <stdio.h>
 #include <string.h>
 
+extern int first = 1;
+
+static void printboard(char **board, int size){
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            printf("%c",board[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+static void placeWord(char **board, int size, char* word,int row_loc, int column_loc, char direction){
+
+    int len = strlen(word);
+
+    if(direction == 'V') {
+        for (int i = 0; i < len; ++i) {
+            board[row_loc++][column_loc] = word[i];
+        }
+    }else if (direction == 'H') {
+        for (int i = 0; i < len; ++i) {
+            board[row_loc][column_loc++] = word[i];
+        }
+    }
+}
+
+static int validate(char **board, int size, char* word, int row_loc, int column_loc, char direction){
+
+    int len = strlen(word);
+
+    if(direction == 'V'){
+        if( len + row_loc > size){
+            return 0;
+        }else if(first == 1){
+            first = 0;
+            return 1;
+        }else{
+            for (int i = 0; i < len; ++i) {
+                if(board[row_loc++][column_loc] == word[i]){
+                    return 1;
+                }
+            }
+        }
+
+    }else if(direction == 'H'){
+        if( len + column_loc > size){
+            return 0;
+        }else if(first == 1){
+            first = 0;
+            return 1;
+        }else{
+            for (int i = 0; i < len; ++i) {
+                if(board[row_loc][column_loc++] == word[i]){
+                    return 1;
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+
 int main()
 {
     // n is the size of the board N x N
@@ -33,28 +96,19 @@ int main()
     //taking input for all the words and placing them on the board
     for (int i = 0; i < w; ++i) {
         scanf("%d %d %c %s",&x,&y,&d,s);
-        
-        if(d == 'V') {
-            for (int i = 0; i < strlen(s); ++i) {
-                board[y++][x] = s[i];
-            }
-        }
-        else if (d == 'H') {
-            for (int i = 0; i < strlen(s); ++i) {
-                board[y][x++] = s[i];
-            }
+
+        int validity = validate(board,n,s,y,x,d);
+
+        if(validity == 1){
+            placeWord(board, n,s,y,x,d);
+        }else if(validity == 0) {
+            printf("Invalid word placement: (%d,%d) %c, %s\n", x, y, d, s);
         }
     }
 
     scanf("%d",&f);
 
-    
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            printf("%c",board[i][j]);
-        }
-        printf("\n");
-    }
+    printboard(board,n);
 
     return 0;
 }
