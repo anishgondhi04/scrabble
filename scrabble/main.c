@@ -9,7 +9,7 @@
 static int first = 1;
 static int n = 0;
 
-static void printboard(char **board, int size){
+static void printboard(char board[n][n], int size){
 
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
