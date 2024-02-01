@@ -75,7 +75,7 @@ static void whereToPlace(char board[n][n],int before, char character, int after)
     for (int i = 0; i < n ; ++i) {
         for (int j = 0; j < n; ++j) {
             if(board[i][j] == character){
-                if((i - before - 1 >= 0) && (i + after < n)){
+                if((i - before >= 0) && (i + after < n)){
                     int flag = 0;
                     for (int k = i-1; k >= i - before ; --k) {
                         if(board[k][j]!='.'){
@@ -91,7 +91,7 @@ static void whereToPlace(char board[n][n],int before, char character, int after)
                         printf("Place vertically at (%d,%d)\n",j,i);
                     }
                 }
-                if((j - before - 1 >= 0) && (j + after < n)){
+                if((j - before >= 0) && (j + after < n)){
                     int flag = 0;
                     for (int k = j-1; k >= j - before ; --k) {
                         if(board[i][k]!='.'){
