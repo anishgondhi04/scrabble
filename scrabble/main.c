@@ -88,7 +88,7 @@ static void whereToPlace(char board[n][n],int before, char character, int after)
                         }
                     }
                     if(flag == 0){
-                        printf("Place vertically at (%d,%d)",i,j);
+                        printf("Place vertically at (%d,%d)\n",j,i);
                     }
                 }
                 if((j - before >= 0) && (j + after < n)){
