@@ -9,17 +9,17 @@
 static int first = 1;
 static int n = 0;
 
-static void printboard(char board[n][n], int size){
+static void printboard(char board[n][n]){
 
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
             printf("%c",board[i][j]);
         }
         printf("\n");
     }
 }
 
-static void placeWord(char board[n][n], int size, char* word,int row_loc, int column_loc, char direction){
+static void placeWord(char board[n][n], char* word,int row_loc, int column_loc, char direction){
 
     int len = strlen(word);
 
@@ -34,12 +34,12 @@ static void placeWord(char board[n][n], int size, char* word,int row_loc, int co
     }
 }
 
-static int validate(char board[n][n], int size, char* word, int row_loc, int column_loc, char direction){
+static int validate(char board[n][n], char* word, int row_loc, int column_loc, char direction){
 
     int len = strlen(word);
 
     if(direction == 'V'){
-        if( len + row_loc > size){
+        if( len + row_loc > n){
             return 0;
         }else if(first == 1){
             first = 0;
@@ -53,7 +53,7 @@ static int validate(char board[n][n], int size, char* word, int row_loc, int col
         }
 
     }else if(direction == 'H'){
-        if( len + column_loc > size){
+        if( len + column_loc > n){
             return 0;
         }else if(first == 1){
             first = 0;
@@ -70,19 +70,19 @@ static int validate(char board[n][n], int size, char* word, int row_loc, int col
     return 0;
 }
 
-static void whereToPlace(char board[n][n],int size,int before, int after, char character){
+static void whereToPlace(char board[n][n],int before, char character, int after){
 
-    for (int i = 0; i < size ; ++i) {
-        for (int j = 0; j < size; ++j) {
+    for (int i = 0; i < n ; ++i) {
+        for (int j = 0; j < n; ++j) {
             if(board[i][j] == character){
                 if((i - before >= 0) && (i + after < n)){
                     int flag = 0;
-                    for (int k = i; k >= i - before ; --k) {
+                    for (int k = i-1; k >= i - before ; --k) {
                         if(board[k][j]!='.'){
                             flag++;
                         }
                     }
-                    for (int k = i; k < i + after; ++k) {
+                    for (int k = i+1; k < i + after; ++k) {
                         if(board[k][j]!='.'){
                             flag++;
                         }
@@ -93,18 +93,18 @@ static void whereToPlace(char board[n][n],int size,int before, int after, char c
                 }
                 if((j - before >= 0) && (j + after < n)){
                     int flag = 0;
-                    for (int k = j; k >= j - before ; --k) {
+                    for (int k = j-1; k >= j - before ; --k) {
                         if(board[i][k]!='.'){
                             flag++;
                         }
                     }
-                    for (int k = j; k < j + after; ++k) {
+                    for (int k = j+1; k < j + after; ++k) {
                         if(board[i][k]!='.'){
                             flag++;
                         }
                     }
                     if(flag == 0){
-                        printf("Place horizontally at (%d,%d)",i,j);
+                        printf("Place horizontally at (%d,%d)\n",j,i);
                     }
                 }
             }
@@ -141,10 +141,10 @@ int main()
     for (int i = 0; i < w; ++i) {
         scanf("%d %d %c %s",&x,&y,&d,s);
 
-        int validity = validate(board,n,s,y,x,d);
+        int validity = validate( board,s,y,x,d);
 
         if(validity == 1){
-            placeWord(board, n,s,y,x,d);
+            placeWord( board, s,y,x,d);
         }else if(validity == 0) {
             printf("Invalid word placement: (%d,%d) %c, %s\n", x, y, d, s);
         }
@@ -152,7 +152,7 @@ int main()
 
     scanf("%d",&f);
 
-    printboard(board,n);
+    printboard(board);
 
     if( f > 0 ){
         int before,after;
@@ -162,7 +162,7 @@ int main()
 
             scanf("%d %c %d",&before,&character,&after);
 
-            whereToPlace(board, n, before, after, character);
+            whereToPlace(board, before, character, after);
         }
     }
 
