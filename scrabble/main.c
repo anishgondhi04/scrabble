@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
-static int first = 1;
-static int n = 0;
+static int first = 1; //static variable to check if the word is first word to be placed on board
+static int n = 0; //To keep track of the size of the board
 
 // printboard function will print the board
 static void printboard(char board[n][n]){
@@ -25,7 +25,7 @@ static void placeWord(char board[n][n], char* word,int row_loc, int column_loc, 
 
     int len = strlen(word);
 
-    //checking if the word needs to be placed vertically
+    //checking if the word needs to be placed Vertically or Horizontally
     if(direction == 'V') {
         for (int i = 0; i < len; ++i) {
             board[row_loc++][column_loc] = word[i];
@@ -42,6 +42,9 @@ static void placeWord(char board[n][n], char* word,int row_loc, int column_loc, 
 static int validate(char board[n][n], char* word, int row_loc, int column_loc, char direction){
 
     int len = strlen(word);
+
+    //In both cases it will check if the word is the first to be placed and if it is then, it will set first to 0
+    //In else condition if there is a common letter between already existing word then function will return 1
 
     if(direction == 'V'){
         if( len + row_loc > n){
@@ -75,13 +78,20 @@ static int validate(char board[n][n], char* word, int row_loc, int column_loc, c
     return 0;
 }
 
+//This function checks the possible location where the word with given character can be placed
+//It checks if the word bounds are in the size of board
+//It also checks if there is enough space for the word
 static void whereToPlace(char board[n][n],int before, char character, int after){
 
+    //n*n for loop to check with each character on the board
     for (int i = 0; i < n ; ++i) {
         for (int j = 0; j < n; ++j) {
+            //if the character and board character at position i and j are equal
             if(board[i][j] == character){
+
+                //if the word is out of bound when trying place Vertically
                 if((i - before >= 0) && (i + after < n)){
-                    int flag = 0;
+                    int flag = 0;                              //keeping track of the status to print the location
                     for (int k = i-1; k >= i - before ; --k) {
                         if(board[k][j]!='.'){
                             flag++;
@@ -92,10 +102,11 @@ static void whereToPlace(char board[n][n],int before, char character, int after)
                             flag++;
                         }
                     }
-                    if(flag == 0){
-                        printf("Place vertically at (%d,%d)\n",j,i);
+                    if(flag == 0){                      //location is only printed when the board has space for word
+                        printf("Place vertically at (%d,%d)\n",j,i); // (i -> Y_axis) (j -> X_axis)
                     }
                 }
+                //if the word is out of bound when trying place Horizontally
                 if((j - before >= 0) && (j + after < n)){
                     int flag = 0;
                     for (int k = j-1; k >= j - before ; --k) {
@@ -159,10 +170,16 @@ int main()
 
     printboard(board);
 
+    //This condition runs only if the user enters any words to checked to know where they can be placed
     if( f > 0 ){
+
+        //before is the space required before the character
+        //after is the space required after the character
+        //character of the word to be placed
         int before,after;
         char character;
 
+        //for loops takes the input for f times and calls whereToPlace function to print the location
         for (int i = 0; i < f; ++i) {
 
             scanf("%d %c %d",&before,&character,&after);
