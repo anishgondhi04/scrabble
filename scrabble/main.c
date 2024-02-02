@@ -9,6 +9,7 @@
 static int first = 1;
 static int n = 0;
 
+// printboard function will print the board
 static void printboard(char board[n][n]){
 
     for (int i = 0; i < n; ++i) {
@@ -19,10 +20,12 @@ static void printboard(char board[n][n]){
     }
 }
 
+//placeWord function will take the word and add it to the board character by character
 static void placeWord(char board[n][n], char* word,int row_loc, int column_loc, char direction){
 
     int len = strlen(word);
 
+    //checking if the word needs to be placed vertically
     if(direction == 'V') {
         for (int i = 0; i < len; ++i) {
             board[row_loc++][column_loc] = word[i];
@@ -34,6 +37,8 @@ static void placeWord(char board[n][n], char* word,int row_loc, int column_loc, 
     }
 }
 
+//validate function is used to check if the word placement is according to the rules
+//There is special case if the first word is being placed it will only check if the word is not exceeding board length
 static int validate(char board[n][n], char* word, int row_loc, int column_loc, char direction){
 
     int len = strlen(word);
@@ -82,7 +87,7 @@ static void whereToPlace(char board[n][n],int before, char character, int after)
                             flag++;
                         }
                     }
-                    for (int k = i+1; k < i + after; ++k) {
+                    for (int k = i+1; k <= i + after; ++k) {
                         if(board[k][j]!='.'){
                             flag++;
                         }
@@ -98,7 +103,7 @@ static void whereToPlace(char board[n][n],int before, char character, int after)
                             flag++;
                         }
                     }
-                    for (int k = j+1; k < j + after; ++k) {
+                    for (int k = j+1; k <= j + after; ++k) {
                         if(board[i][k]!='.'){
                             flag++;
                         }
